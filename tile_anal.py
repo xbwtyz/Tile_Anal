@@ -50,7 +50,7 @@ def analyze_tileset(image_path):
         'tiles_x': tiles_x,
         'tiles_y': tiles_y,
     }
-def save_individual_tiles(image_path, result):
+def save_individual_tiles(image_path, result, max_tiles=255):
     try:
         image = Image.open(image_path)
     except IOError:
@@ -65,6 +65,11 @@ def save_individual_tiles(image_path, result):
     spacing_y = result['spacing_y']
     tiles_x = result['tiles_x']
     tiles_y = result['tiles_y']
+
+    total_tiles = tiles_x * tiles_y
+    if total_tiles > max_tiles:
+        print(f"Error: Attempting to create {total_tiles} tiles, which exceeds the maximum limit of {max_tiles}. Aborting.")
+        sys.exit(1)
 
     for y in range(tiles_y):
         for x in range(tiles_x):
